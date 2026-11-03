@@ -18,6 +18,17 @@
     .public-screen .question-display h2{font-size:clamp(1.8rem,4.5vw,4rem);max-width:1250px}
     .public-screen .round-status{font-size:clamp(.8rem,1.5vw,1.1rem);margin-top:10px}
     .public-screen .winner-display{font-size:clamp(1.2rem,2.6vw,2.2rem)}
+    .winner-banner{
+      display:none; width:min(100%,1100px); margin:0 auto 26px; padding:clamp(22px,4vw,42px);
+      border-radius:22px; text-align:center; color:#fff; background:linear-gradient(135deg,#174b91,#246fd0);
+      border:2px solid #8fc0ff; box-shadow:0 12px 40px #0005;
+      animation:winner-pop .35s ease-out;
+    }
+    .winner-banner.red-winner{background:linear-gradient(135deg,#8f2434,#d84455);border-color:#ffabb2}
+    .winner-banner.winner-visible{display:block}
+    .winner-banner-team{font-size:clamp(1.7rem,5vw,3.5rem);font-weight:900;letter-spacing:.04em}
+    .winner-banner-message{font-size:clamp(1.2rem,3.4vw,2.5rem);font-weight:900;margin-top:8px}
+    @keyframes winner-pop{from{transform:scale(.94);opacity:.4}to{transform:scale(1);opacity:1}}
     .public-foot{text-align:center;margin:24px 0;color:var(--muted);font-size:.78rem}
     @media(max-width:560px){.public-screen .scoreboard{grid-template-columns:1fr 1fr}.public-screen .team-card{padding:16px 8px}}
   </style>
@@ -36,6 +47,11 @@
       </div>
       <span class="live-indicator"><i></i> ATUALIZAÇÃO EM TEMPO REAL</span>
     </div>
+
+    <section id="winner-banner" class="winner-banner" aria-live="polite">
+      <div id="winner-banner-team" class="winner-banner-team"></div>
+      <div id="winner-banner-message" class="winner-banner-message"></div>
+    </section>
 
     <section class="scoreboard">
       <article class="team-card blue-card">
