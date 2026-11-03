@@ -24,11 +24,13 @@
   }
   function setText(id, value) { const el = $(id); if (el) el.textContent = value ?? ""; }
   function teamLabel(t) { return t === "a" ? "EQUIPE AZUL" : "EQUIPE VERMELHA"; }
-  function baseUrl(file) { return new URL(file, location.href).href; }
   function showError(id, error) { if ($(id)) setText(id, error?.message || String(error)); }
 
   async function loadRoom() {
-  const { data, error } = await supabase.from("rooms").select("id, title, question, status, winner, score_a, score_b, created_at, updated_at").eq("id", roomId).single();
+    // Consulta apenas colunas públicas; admin_token_hash nunca é enviado ao navegador.
+    const { data, error } = await supabase.from("rooms")
+      .select("id, title, question, status, winner, score_a, score_b, created_at, updated_at")
+      .eq("id", roomId).single();
     if (error) throw error;
     currentRoom = data;
     renderRoom(data);
@@ -57,8 +59,10 @@
   function subscribe() {
     channel = supabase.channel("room-" + roomId)
       .on("postgres_changes", { event: "*", schema: "public", table: "rooms", filter: "id=eq." + roomId }, payload => {
-        currentRoom = payload.new;
-        renderRoom(payload.new);
+        if (payload.new) {
+          currentRoom = payload.new;
+          renderRoom(payload.new);
+        }
       }).subscribe(status => {
         if (status === "SUBSCRIBED") {
           if ($("connection-status")) setText("connection-status", "Conectado");
@@ -99,8 +103,13 @@
     $("admin-panel").classList.remove("hidden");
     const teamA = new URL("equipe.html", location.href); teamA.searchParams.set("room", roomId); teamA.searchParams.set("team", "a");
     const teamB = new URL("equipe.html", location.href); teamB.searchParams.set("room", roomId); teamB.searchParams.set("team", "b");
-    const screen = new URL("tela.html", location.href); screen.searchParams.set("room", roomId); screen.searchParams.set("token", adminToken);
-    $("link-a").value = teamA.href; $("link-b").value = teamB.href; $("link-screen").value = screen.href;
+    const admin = new URL("tela.html", location.href); admin.searchParams.set("room", roomId); admin.searchParams.set("token", adminToken);
+    const screen = new URL("placar.html", location.href); screen.searchParams.set("room", roomId);
+    $("link-a").value = teamA.href;
+    $("link-b").value = teamB.href;
+    if ($("link-admin")) $("link-admin").value = admin.href;
+    $("link-screen").value = screen.href;
+
     $("open-round").onclick = async () => { try { await adminAction("open", {question: $("question-input").value.trim()}); } catch(e) { alert(e.message); } };
     $("close-round").onclick = async () => { try { await adminAction("close"); } catch(e) { alert(e.message); } };
     $("reset-round").onclick = async () => { try { await adminAction("reset"); } catch(e) { alert(e.message); } };
@@ -113,10 +122,24 @@
       catch { input.select(); document.execCommand("copy"); btn.textContent = "Copiado!"; }
     });
     try {
-      const r = await loadRoom();
-      if (r.admin_token_hash === undefined) {} // O hash não é enviado pela consulta pública.
+      await loadRoom();
       subscribe();
-    } catch(e) { $("admin-panel").innerHTML = `<div class="panel"><h2>Não foi possível abrir esta sala</h2><p class="muted">${e.message}</p></div>`; }
+    } catch(e) {
+      $("admin-panel").innerHTML = `<div class="panel"><h2>Não foi possível abrir esta sala</h2><p class="muted">${e.message}</p></div>`;
+    }
+  }
+
+  async function scoreboardPage() {
+    try {
+      initClient();
+      if (!roomId) throw new Error("Link do telão inválido. Solicite um novo link ao administrador.");
+      await loadRoom();
+      subscribe();
+    } catch (e) {
+      setText("connection-status", "Desconectado");
+      setText("question-display", "Não foi possível abrir esta sala.");
+      setText("round-status", e.message);
+    }
   }
 
   async function teamPage() {
@@ -142,5 +165,6 @@
   }
 
   if (page === "screen") screenPage();
+  if (page === "scoreboard") scoreboardPage();
   if (page === "team") teamPage();
 })();
