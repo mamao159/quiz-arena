@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Quiz Arena — Painel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="screen">
+  <header class="topbar">
+    <a class="wordmark" href="index.html">QUIZ <span>ARENA</span></a>
+    <span class="live-indicator"><i></i> CONEXÃO EM TEMPO REAL</span>
+  </header>
+  <main class="screen-layout">
+    <section id="create-panel" class="panel create-panel hidden">
+      <p class="eyebrow">NOVO JOGO</p>
+      <h1>Prepare sua arena</h1>
+      <p class="muted">Crie uma sala e compartilhe os links com as duas equipes.</p>
+      <label for="room-title">Nome do evento (opcional)</label>
+      <input id="room-title" maxlength="60" placeholder="Ex.: Gincana 2026">
+      <button id="create-room" class="btn primary big">Criar sala</button>
+      <p id="create-error" class="error"></p>
+    </section>
+
+    <section id="admin-panel" class="hidden">
+      <div class="screen-heading">
+        <div>
+          <p class="eyebrow">PAINEL DO ADMINISTRADOR</p>
+          <h1 id="event-title">Quiz Arena</h1>
+          <p class="muted">Sala: <code id="room-id-label"></code></p>
+        </div>
+        <span id="connection-status" class="status-pill">Conectando...</span>
+      </div>
+
+      <div class="scoreboard">
+        <article class="team-card blue-card">
+          <span class="team-label">EQUIPE AZUL</span>
+          <strong id="score-a">0</strong>
+          <span class="score-caption">PONTOS</span>
+        </article>
+        <article class="team-card red-card">
+          <span class="team-label">EQUIPE VERMELHA</span>
+          <strong id="score-b">0</strong>
+          <span class="score-caption">PONTOS</span>
+        </article>
+      </div>
+
+      <section class="question-display">
+        <p class="eyebrow">PERGUNTA DA RODADA</p>
+        <h2 id="question-display">Aguardando o administrador iniciar...</h2>
+        <div id="round-status" class="round-status">SALA AGUARDANDO</div>
+        <div id="winner-display" class="winner-display"></div>
+      </section>
+
+      <div class="admin-grid">
+        <section class="panel">
+          <p class="eyebrow">CONTROLE DA PARTIDA</p>
+          <label for="question-input">Digite ou cole a pergunta</label>
+          <textarea id="question-input" rows="3" placeholder="Digite aqui a pergunta que será exibida na TV..."></textarea>
+          <div class="button-row">
+            <button id="open-round" class="btn primary">Liberar botões</button>
+            <button id="close-round" class="btn secondary">Encerrar rodada</button>
+          </div>
+          <p class="muted small">Ao liberar os botões, os dois celulares poderão disputar. O primeiro clique aceito pelo servidor será o vencedor.</p>
+        </section>
+
+        <section class="panel">
+          <p class="eyebrow">PONTUAÇÃO</p>
+          <div class="score-controls">
+            <div><b>Equipe Azul</b><div class="button-row"><button class="btn secondary score-btn" data-team="a" data-delta="-1">−1</button><button class="btn secondary score-btn" data-team="a" data-delta="1">+1</button></div></div>
+            <div><b>Equipe Vermelha</b><div class="button-row"><button class="btn secondary score-btn" data-team="b" data-delta="-1">−1</button><button class="btn secondary score-btn" data-team="b" data-delta="1">+1</button></div></div>
+          </div>
+          <button id="reset-round" class="btn danger-outline full">Preparar próxima rodada</button>
+        </section>
+      </div>
+
+      <section class="panel links-panel">
+        <div><p class="eyebrow">LINKS PARA COMPARTILHAR</p><h3>Convide as equipes</h3></div>
+        <div class="link-line"><span>Celular — Equipe Azul</span><input id="link-a" readonly><button class="btn secondary copy-btn" data-copy="link-a">Copiar</button></div>
+        <div class="link-line"><span>Celular — Equipe Vermelha</span><input id="link-b" readonly><button class="btn secondary copy-btn" data-copy="link-b">Copiar</button></div>
+        <div class="link-line"><span>Tela da TV</span><input id="link-screen" readonly><button class="btn secondary copy-btn" data-copy="link-screen">Copiar</button></div>
+        <p class="muted small">Mantenha o link administrativo em segredo. Quem tiver esse link poderá controlar a partida.</p>
+      </section>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>

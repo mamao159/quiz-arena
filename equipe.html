@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#101827">
+  <title>Quiz Arena — Equipe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="team">
+  <main class="team-page" id="team-page">
+    <div class="team-top">
+      <a class="wordmark" href="index.html">QUIZ <span>ARENA</span></a>
+      <span id="team-connection" class="status-pill">Conectando...</span>
+    </div>
+    <div class="team-intro">
+      <p class="eyebrow">SUA EQUIPE</p>
+      <h1 id="team-name">EQUIPE</h1>
+      <p id="team-instruction" class="muted">Aguarde o administrador liberar a disputa.</p>
+    </div>
+    <button id="buzzer" class="buzzer" disabled>
+      <span class="buzzer-inner"><span class="buzzer-icon">✦</span><strong>APERTE!</strong><small>SEJA O MAIS RÁPIDO</small></span>
+    </button>
+    <div id="team-result" class="team-result">AGUARDANDO A PRÓXIMA RODADA</div>
+    <p class="muted small team-foot">Não atualize a página durante a disputa.</p>
+  </main>
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
