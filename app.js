@@ -28,7 +28,7 @@
   function showError(id, error) { if ($(id)) setText(id, error?.message || String(error)); }
 
   async function loadRoom() {
-    const { data, error } = await supabase.from("rooms").select("*").eq("id", roomId).single();
+  const { data, error } = await supabase.from("rooms").select("id, title, question, status, winner, score_a, score_b, created_at, updated_at").eq("id", roomId).single();
     if (error) throw error;
     currentRoom = data;
     renderRoom(data);
