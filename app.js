@@ -214,6 +214,19 @@ function teamLabel(t) {
       };
     });
 
+    document.querySelectorAll(".general-score-btn").forEach(btn => {
+      btn.onclick = async () => {
+        try {
+          await teamScoreAction(
+            btn.dataset.team,
+            Number(btn.dataset.delta)
+          );
+        } catch (e) {
+          alert(e.message);
+        }
+      };
+    });
+
     document.querySelectorAll(".copy-btn").forEach(btn => {
       btn.onclick = async () => {
         const input = $(btn.dataset.copy);
