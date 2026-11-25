@@ -26,9 +26,9 @@
     const el = $(id);
     if (el) el.textContent = value ?? "";
   }
-  function teamLabel(t) {
-    return t === "a" ? "EQUIPE AZUL" : t === "b" ? "EQUIPE VERMELHA" : "";
-  }
+function teamLabel(t) {
+  return t === "a" ? "EQUIPE A" : t === "b" ? "EQUIPE B" : "";
+}
   function showError(id, error) {
     if ($(id)) setText(id, error?.message || String(error));
   }
