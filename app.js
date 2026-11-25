@@ -50,6 +50,15 @@ function teamLabel(t) {
     setText("room-id-label", r.id);
     setText("score-a", r.score_a);
     setText("score-b", r.score_b);
+    
+    if ($("general-score-rosa")) setText("general-score-rosa", r.score_rosa ?? 0);
+    if ($("general-score-azul")) setText("general-score-azul", r.score_azul ?? 0);
+    if ($("general-score-verde")) setText("general-score-verde", r.score_verde ?? 0);
+    if ($("general-score-preto")) setText("general-score-preto", r.score_preto ?? 0);
+    if ($("general-score-vermelho")) setText("general-score-vermelho", r.score_vermelho ?? 0);
+    if ($("general-score-branco")) setText("general-score-branco", r.score_branco ?? 0);
+    if ($("general-score-amarelo")) setText("general-score-amarelo", r.score_amarelo ?? 0);
+
     setText("question-display", r.question || "Aguardando o administrador cadastrar a pergunta...");
     setText("round-status",
       r.status === "open" ? "DISPUTA LIBERADA" :
