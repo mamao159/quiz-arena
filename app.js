@@ -36,7 +36,7 @@ function teamLabel(t) {
   async function loadRoom() {
     // Consulta somente colunas públicas; admin_token_hash nunca é enviado ao navegador.
     const { data, error } = await supabase.from("rooms")
-      .select("id, title, question, status, winner, score_a, score_b, created_at, updated_at")
+      .select("id, title, question, status, winner, score_a, score_b, score_rosa, score_azul, score_verde, score_preto, score_vermelho, score_branco, score_amarelo, created_at, updated_at")
       .eq("id", roomId).single();
     if (error) throw error;
     currentRoom = data;
