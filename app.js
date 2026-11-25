@@ -122,6 +122,30 @@ function teamLabel(t) {
     renderRoom(data);
   }
 
+  async function teamScoreAction(team, delta) {
+    const { data, error } = await supabase.rpc("admin_team_score", {
+      p_room_id: roomId,
+      p_admin_token: adminToken,
+      p_team: team,
+      p_delta: delta
+    });
+
+    if (error) throw error;
+
+    currentRoom = {
+      ...currentRoom,
+      score_rosa: data.rosa,
+      score_azul: data.azul,
+      score_verde: data.verde,
+      score_preto: data.preto,
+      score_vermelho: data.vermelho,
+      score_branco: data.branco,
+      score_amarelo: data.amarelo
+    };
+
+    renderRoom(currentRoom);
+  }
+
   async function screenPage() {
     if (!roomId || !adminToken) {
       $("create-panel").classList.remove("hidden");
