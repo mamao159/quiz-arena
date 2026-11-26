@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -6,76 +7,262 @@
   <meta name="theme-color" content="#101827">
   <title>Quiz Arena — Telão</title>
   <link rel="stylesheet" href="style.css">
+
   <style>
-    .public-screen{max-width:1500px;margin:0 auto;padding:clamp(18px,4vw,56px)}
-    .public-screen .screen-heading{margin-bottom:clamp(18px,3vw,38px)}
-    .public-screen .screen-heading h1{font-size:clamp(2rem,5vw,4.5rem)}
-    .public-screen .scoreboard{gap:clamp(12px,2vw,28px);margin:clamp(18px,3vw,34px) 0}
-    .public-screen .team-card{padding:clamp(20px,4vw,48px)}
-    .public-screen .team-card strong{font-size:clamp(4rem,11vw,9rem)}
-    .public-screen .team-label{font-size:clamp(.8rem,1.6vw,1.2rem)}
-    .public-screen .question-display{min-height:clamp(230px,34vh,420px);padding:clamp(24px,5vw,64px)}
-    .public-screen .question-display h2{font-size:clamp(1.8rem,4.5vw,4rem);max-width:1250px}
-    .public-screen .round-status{font-size:clamp(.8rem,1.5vw,1.1rem);margin-top:10px}
-    .public-screen .winner-display{font-size:clamp(1.2rem,2.6vw,2.2rem)}
-    .winner-banner{
-      display:none; width:min(100%,1100px); margin:0 auto 26px; padding:clamp(22px,4vw,42px);
-      border-radius:22px; text-align:center; color:#fff; background:linear-gradient(135deg,#174b91,#246fd0);
-      border:2px solid #8fc0ff; box-shadow:0 12px 40px #0005;
-      animation:winner-pop .35s ease-out;
+    .public-screen {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: clamp(18px, 4vw, 56px);
     }
-    .winner-banner.red-winner{background:linear-gradient(135deg,#8f2434,#d84455);border-color:#ffabb2}
-    .winner-banner.winner-visible{display:block}
-    .winner-banner-team{font-size:clamp(1.7rem,5vw,3.5rem);font-weight:900;letter-spacing:.04em}
-    .winner-banner-message{font-size:clamp(1.2rem,3.4vw,2.5rem);font-weight:900;margin-top:8px}
-    @keyframes winner-pop{from{transform:scale(.94);opacity:.4}to{transform:scale(1);opacity:1}}
-    .public-foot{text-align:center;margin:24px 0;color:var(--muted);font-size:.78rem}
-    @media(max-width:560px){.public-screen .scoreboard{grid-template-columns:1fr 1fr}.public-screen .team-card{padding:16px 8px}}
+
+    .public-screen .screen-heading {
+      margin-bottom: 28px;
+    }
+
+    .public-screen .screen-heading h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+    }
+
+    /* PLACAR DAS SETE EQUIPES */
+    .general-scoreboard {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin: 28px 0;
+    }
+
+    .general-team-card {
+      min-height: 180px;
+      padding: 22px 12px;
+      border-radius: 18px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #ffffff35;
+      box-shadow: 0 8px 22px #0003;
+      color: white;
+    }
+
+    .general-team-card .team-name {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .general-team-card strong {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.1;
+      margin: 12px 0;
+      font-weight: 900;
+    }
+
+    .general-team-card .score-caption {
+      font-size: .85rem;
+      font-weight: 800;
+    }
+
+    .card-rosa { background: #d63384; }
+    .card-azul { background: #1769c2; }
+    .card-verde { background: #198754; }
+    .card-preto { background: #202631; }
+    .card-vermelho { background: #c92a3a; }
+    .card-branco {
+      background: #f1f3f5;
+      color: #202631;
+      border-color: #adb5bd;
+    }
+    .card-amarelo {
+      background: #ffd43b;
+      color: #202631;
+      border-color: #e0ad00;
+    }
+
+    /* PERGUNTA */
+    .public-screen .question-display {
+      min-height: 200px;
+      padding: clamp(24px, 5vw, 50px);
+      margin-top: 30px;
+    }
+
+    .public-screen .question-display h2 {
+      font-size: clamp(1.5rem, 3.5vw, 3rem);
+      max-width: 1250px;
+      text-align: left;
+      white-space: pre-line;
+    }
+
+    .public-screen .round-status {
+      font-size: clamp(.8rem, 1.5vw, 1.1rem);
+      margin-top: 18px;
+    }
+
+    /* AVISO DE QUEM APERTOU PRIMEIRO */
+    .winner-banner {
+      display: none;
+      width: min(100%, 1100px);
+      margin: 0 auto 26px;
+      padding: clamp(22px, 4vw, 42px);
+      border-radius: 22px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(135deg, #174b91, #246fd0);
+      border: 2px solid #8fc0ff;
+      box-shadow: 0 12px 40px #0005;
+      animation: winner-pop .35s ease-out;
+    }
+
+    .winner-banner.red-winner {
+      background: linear-gradient(135deg, #8f2434, #d84455);
+      border-color: #ffabb2;
+    }
+
+    .winner-banner.winner-visible {
+      display: block;
+    }
+
+    .winner-banner-team {
+      font-size: clamp(1.7rem, 5vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .winner-banner-message {
+      font-size: clamp(1.2rem, 3.4vw, 2.5rem);
+      font-weight: 900;
+      margin-top: 8px;
+    }
+
+    @keyframes winner-pop {
+      from { transform: scale(.94); opacity: .4; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .public-foot {
+      text-align: center;
+      margin: 24px 0;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    @media (max-width: 850px) {
+      .general-scoreboard {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .general-team-card {
+        min-height: 135px;
+        padding: 14px 8px;
+      }
+
+      .general-team-card strong {
+        font-size: 3rem;
+      }
+    }
   </style>
 </head>
+
 <body data-page="scoreboard">
+
   <header class="topbar">
     <a class="wordmark" href="index.html">QUIZ <span>ARENA</span></a>
     <span id="connection-status" class="status-pill">Conectando...</span>
   </header>
+
   <main class="public-screen">
+
     <div class="screen-heading">
       <div>
-        <p class="eyebrow">PLACAR OFICIAL</p>
+        <p class="eyebrow">PLACAR OFICIAL — GINCANA</p>
         <h1 id="event-title">Quiz Arena</h1>
         <p class="muted">Sala: <code id="room-id-label"></code></p>
       </div>
-      <span class="live-indicator"><i></i> ATUALIZAÇÃO EM TEMPO REAL</span>
+
+      <span class="live-indicator">
+        <i></i> ATUALIZAÇÃO EM TEMPO REAL
+      </span>
     </div>
 
+    <!-- AVISO DE QUEM APERTOU PRIMEIRO -->
     <section id="winner-banner" class="winner-banner" aria-live="polite">
       <div id="winner-banner-team" class="winner-banner-team"></div>
       <div id="winner-banner-message" class="winner-banner-message"></div>
     </section>
 
-    <section class="scoreboard">
-      <article class="team-card blue-card">
-        <span class="team-label">EQUIPE A</span>
-        <strong id="score-a">0</strong>
+    <!-- PLACAR GERAL DAS SETE EQUIPES -->
+    <section class="general-scoreboard">
+
+      <article class="general-team-card card-rosa">
+        <span class="team-name">Rosa</span>
+        <strong id="general-score-rosa">0</strong>
         <span class="score-caption">PONTOS</span>
       </article>
-      <article class="team-card red-card">
-        <span class="team-label">EQUIPE B</span>
-        <strong id="score-b">0</strong>
+
+      <article class="general-team-card card-azul">
+        <span class="team-name">Azul</span>
+        <strong id="general-score-azul">0</strong>
         <span class="score-caption">PONTOS</span>
       </article>
+
+      <article class="general-team-card card-verde">
+        <span class="team-name">Verde</span>
+        <strong id="general-score-verde">0</strong>
+        <span class="score-caption">PONTOS</span>
+      </article>
+
+      <article class="general-team-card card-preto">
+        <span class="team-name">Preto</span>
+        <strong id="general-score-preto">0</strong>
+        <span class="score-caption">PONTOS</span>
+      </article>
+
+      <article class="general-team-card card-vermelho">
+        <span class="team-name">Vermelho</span>
+        <strong id="general-score-vermelho">0</strong>
+        <span class="score-caption">PONTOS</span>
+      </article>
+
+      <article class="general-team-card card-branco">
+        <span class="team-name">Branco</span>
+        <strong id="general-score-branco">0</strong>
+        <span class="score-caption">PONTOS</span>
+      </article>
+
+      <article class="general-team-card card-amarelo">
+        <span class="team-name">Amarelo</span>
+        <strong id="general-score-amarelo">0</strong>
+        <span class="score-caption">PONTOS</span>
+      </article>
+
     </section>
 
+    <!-- PERGUNTA E SITUAÇÃO DA DISPUTA -->
     <section class="question-display">
       <p class="eyebrow">PERGUNTA DA RODADA</p>
+
       <h2 id="question-display" style="white-space: pre-line; text-align: left;">
-      <div id="round-status" class="round-status">AGUARDANDO NOVA RODADA</div>
+        Aguardando o administrador cadastrar a pergunta...
+      </h2>
+
+      <div id="round-status" class="round-status">
+        AGUARDANDO NOVA RODADA
+      </div>
+
       <div id="winner-display" class="winner-display"></div>
     </section>
-    <p class="public-foot">Quiz Arena · Telão de acompanhamento — somente visualização</p>
+
+    <p class="public-foot">
+      Quiz Arena · Placar geral da gincana — somente visualização
+    </p>
+
   </main>
+
   <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
