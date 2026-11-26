@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -12,11 +13,12 @@
     <a class="wordmark" href="index.html">QUIZ <span>ARENA</span></a>
     <span class="live-indicator"><i></i> CONEXÃO EM TEMPO REAL</span>
   </header>
+
   <main class="screen-layout">
     <section id="create-panel" class="panel create-panel hidden">
       <p class="eyebrow">NOVO JOGO</p>
       <h1>Prepare sua arena</h1>
-      <p class="muted">Crie uma sala e compartilhe os links com as duas equipes.</p>
+      <p class="muted">Crie uma sala para iniciar a partida.</p>
       <label for="room-title">Nome do evento (opcional)</label>
       <input id="room-title" maxlength="60" placeholder="Ex.: Gincana 2026">
       <button id="create-room" class="btn primary big">Criar sala</button>
@@ -24,6 +26,7 @@
     </section>
 
     <section id="admin-panel" class="hidden">
+
       <div class="screen-heading">
         <div>
           <p class="eyebrow">PAINEL DO ADMINISTRADOR</p>
@@ -33,19 +36,6 @@
         <span id="connection-status" class="status-pill">Conectando...</span>
       </div>
 
-      <div class="scoreboard">
-        <article class="team-card blue-card">
-          <span class="team-label">EQUIPE A</span>
-          <strong id="score-a">0</strong>
-          <span class="score-caption">PONTOS</span>
-        </article>
-        <article class="team-card red-card">
-          <span class="team-label">EQUIPE B</span>
-          <strong id="score-b">0</strong>
-          <span class="score-caption">PONTOS</span>
-        </article>
-      </div>
-
       <section class="question-display">
         <p class="eyebrow">PERGUNTA DA RODADA</p>
         <h2 id="question-display" style="white-space: pre-line;">Aguardando o administrador iniciar...</h2>
@@ -53,120 +43,133 @@
         <div id="winner-display" class="winner-display"></div>
       </section>
 
-      
-<section class="panel">
-  <p class="eyebrow">CONTROLE DA PARTIDA</p>
+      <section class="panel">
+        <p class="eyebrow">CONTROLE DA PARTIDA</p>
 
-  <label for="question-input">Digite ou cole a pergunta</label>
-  <textarea
-    id="question-input"
-    rows="4"
-    placeholder="Digite aqui a pergunta que será exibida no telão..."
-  ></textarea>
+        <label for="question-input">Digite ou cole a pergunta</label>
+        <textarea id="question-input" rows="4" placeholder="Digite aqui a pergunta que será exibida no telão..."></textarea>
 
-  <div class="button-row">
-    <button id="open-round" class="btn primary">
-      Liberar disputa
-    </button>
+        <div class="button-row">
+          <button id="open-round" class="btn primary">Liberar disputa</button>
+          <button id="close-round" class="btn danger-outline">Encerrar disputa</button>
+        </div>
+      </section>
 
-    <button id="close-round" class="btn danger-outline">
-      Encerrar disputa
-    </button>
-  </div>
-</section>
+      <section class="panel">
+        <p class="eyebrow">PLACAR GERAL — SETE EQUIPES</p>
 
-<section class="panel">
-  <p class="eyebrow">PLACAR GERAL — SETE EQUIPES</p>
+        <div class="general-score-controls">
 
-  <div class="general-score-controls">
-
-    <div class="general-score-card">
-      <b> Rosa</b>
-      <h3 id="general-score-rosa">0</h3>
-      <div class="button-row">
-        <button class="btn secondary general-score-btn" data-team="rosa" data-delta="-10">−10</button>
-        <button class="btn secondary general-score-btn" data-team="rosa" data-delta="10">+10</button>
-      </div>
-    </div>
-
-    <div class="general-score-card">
-      <b> Azul</b>
-      <h3 id="general-score-azul">0</h3>
-      <div class="button-row">
-        <button class="btn secondary general-score-btn" data-team="azul" data-delta="-10">−10</button>
-        <button class="btn secondary general-score-btn" data-team="azul" data-delta="10">+10</button>
-      </div>
-    </div>
-
-    <div class="general-score-card">
-      <b> Verde</b>
-      <h3 id="general-score-verde">0</h3>
-      <div class="button-row">
-        <button class="btn secondary general-score-btn" data-team="verde" data-delta="-10">−10</button>
-        <button class="btn secondary general-score-btn" data-team="verde" data-delta="10">+10</button>
-      </div>
-    </div>
-
-    <div class="general-score-card">
-      <b> Preto</b>
-      <h3 id="general-score-preto">0</h3>
-      <div class="button-row">
-        <button class="btn secondary general-score-btn" data-team="preto" data-delta="-10">−10</button>
-        <button class="btn secondary general-score-btn" data-team="preto" data-delta="10">+10</button>
-      </div>
-    </div>
-
-    <div class="general-score-card">
-      <b> Vermelho</b>
-      <h3 id="general-score-vermelho">0</h3>
-      <div class="button-row">
-        <button class="btn secondary general-score-btn" data-team="vermelho" data-delta="-10">−10</button>
-        <button class="btn secondary general-score-btn" data-team="vermelho" data-delta="10">+10</button>
-      </div>
-    </div>
-
-    <div class="general-score-card">
-      <b> Branco</b>
-      <h3 id="general-score-branco">0</h3>
-      <div class="button-row">
-        <button class="btn secondary general-score-btn" data-team="branco" data-delta="-10">−10</button>
-        <button class="btn secondary general-score-btn" data-team="branco" data-delta="10">+10</button>
-      </div>
-    </div>
-
-    <div class="general-score-card">
-      <b> Amarelo</b>
-      <h3 id="general-score-amarelo">0</h3>
-      <div class="button-row">
-        <button class="btn secondary general-score-btn" data-team="amarelo" data-delta="-10">−10</button>
-        <button class="btn secondary general-score-btn" data-team="amarelo" data-delta="10">+10</button>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-        <section class="panel">
-          <p class="eyebrow">PONTUAÇÃO</p>
-          <div class="score-controls">
-            <div><b>Equipe A</b><div class="button-row"><button class="btn secondary score-btn" data-team="a" data-delta="-10">−10</button><button class="btn secondary score-btn" data-team="a" data-delta="10">+10</button></div></div>
-            <div><b>Equipe B</b><div class="button-row"><button class="btn secondary score-btn" data-team="b" data-delta="-10">−10</button><button class="btn secondary score-btn" data-team="b" data-delta="10">+10</button></div></div>
+          <div class="general-score-card">
+            <b>Rosa</b>
+            <h3 id="general-score-rosa">0</h3>
+            <div class="button-row">
+              <button class="btn secondary general-score-btn" data-team="rosa" data-delta="-10">−10</button>
+              <button class="btn secondary general-score-btn" data-team="rosa" data-delta="10">+10</button>
+            </div>
           </div>
-          <button id="reset-round" class="btn danger-outline full">Preparar próxima rodada</button>
-        </section>
-      </div>
+
+          <div class="general-score-card">
+            <b>Azul</b>
+            <h3 id="general-score-azul">0</h3>
+            <div class="button-row">
+              <button class="btn secondary general-score-btn" data-team="azul" data-delta="-10">−10</button>
+              <button class="btn secondary general-score-btn" data-team="azul" data-delta="10">+10</button>
+            </div>
+          </div>
+
+          <div class="general-score-card">
+            <b>Verde</b>
+            <h3 id="general-score-verde">0</h3>
+            <div class="button-row">
+              <button class="btn secondary general-score-btn" data-team="verde" data-delta="-10">−10</button>
+              <button class="btn secondary general-score-btn" data-team="verde" data-delta="10">+10</button>
+            </div>
+          </div>
+
+          <div class="general-score-card">
+            <b>Preto</b>
+            <h3 id="general-score-preto">0</h3>
+            <div class="button-row">
+              <button class="btn secondary general-score-btn" data-team="preto" data-delta="-10">−10</button>
+              <button class="btn secondary general-score-btn" data-team="preto" data-delta="10">+10</button>
+            </div>
+          </div>
+
+          <div class="general-score-card">
+            <b>Vermelho</b>
+            <h3 id="general-score-vermelho">0</h3>
+            <div class="button-row">
+              <button class="btn secondary general-score-btn" data-team="vermelho" data-delta="-10">−10</button>
+              <button class="btn secondary general-score-btn" data-team="vermelho" data-delta="10">+10</button>
+            </div>
+          </div>
+
+          <div class="general-score-card">
+            <b>Branco</b>
+            <h3 id="general-score-branco">0</h3>
+            <div class="button-row">
+              <button class="btn secondary general-score-btn" data-team="branco" data-delta="-10">−10</button>
+              <button class="btn secondary general-score-btn" data-team="branco" data-delta="10">+10</button>
+            </div>
+          </div>
+
+          <div class="general-score-card">
+            <b>Amarelo</b>
+            <h3 id="general-score-amarelo">0</h3>
+            <div class="button-row">
+              <button class="btn secondary general-score-btn" data-team="amarelo" data-delta="-10">−10</button>
+              <button class="btn secondary general-score-btn" data-team="amarelo" data-delta="10">+10</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="panel">
+        <p class="eyebrow">CONTROLE DA RODADA</p>
+        <button id="reset-round" class="btn danger-outline full">Preparar próxima rodada</button>
+      </section>
 
       <section class="panel links-panel">
-        <div><p class="eyebrow">LINKS PARA COMPARTILHAR</p><h3>Convide as equipes</h3></div>
-        <div class="link-line"><span>Celular — Equipe A</span><input id="link-a" readonly><button class="btn secondary copy-btn" data-copy="link-a">Copiar</button></div>
-        <div class="link-line"><span>Celular — Equipe B</span><input id="link-b" readonly><button class="btn secondary copy-btn" data-copy="link-b">Copiar</button></div>
-        <div class="link-line"><span>Administrador</span><input id="link-admin" readonly><button class="btn secondary copy-btn" data-copy="link-admin">Copiar</button></div>
-        <div class="link-line"><span>Telão / TV (somente visualização)</span><input id="link-screen" readonly><button class="btn secondary copy-btn" data-copy="link-screen">Copiar</button></div>
-        <p class="muted small">O link do administrador permite controlar a partida. Compartilhe com cuidado; o link do telão é somente para visualização.</p>
+        <div>
+          <p class="eyebrow">LINKS PARA COMPARTILHAR</p>
+          <h3>Convide as equipes</h3>
+        </div>
+
+        <div class="link-line">
+          <span>Celular — Equipe A</span>
+          <input id="link-a" readonly>
+          <button class="btn secondary copy-btn" data-copy="link-a">Copiar</button>
+        </div>
+
+        <div class="link-line">
+          <span>Celular — Equipe B</span>
+          <input id="link-b" readonly>
+          <button class="btn secondary copy-btn" data-copy="link-b">Copiar</button>
+        </div>
+
+        <div class="link-line">
+          <span>Administrador</span>
+          <input id="link-admin" readonly>
+          <button class="btn secondary copy-btn" data-copy="link-admin">Copiar</button>
+        </div>
+
+        <div class="link-line">
+          <span>Telão / TV (somente visualização)</span>
+          <input id="link-screen" readonly>
+          <button class="btn secondary copy-btn" data-copy="link-screen">Copiar</button>
+        </div>
+
+        <p class="muted small">
+          O link do administrador permite controlar a partida.
+          Compartilhe com cuidado; o link do telão é somente para visualização.
+        </p>
       </section>
+
     </section>
   </main>
+
   <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
